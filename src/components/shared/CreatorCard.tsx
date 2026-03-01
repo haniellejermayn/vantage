@@ -37,7 +37,7 @@ const NICHE_COLORS: Record<string, string> = {
 function TikTokSVG() {
   return (
     <svg
-      className="platform-icon"
+      className="w-3 h-3 shrink-0 text-text-main"
       viewBox="0 0 24 24"
       fill="currentColor"
       aria-hidden="true"
@@ -50,7 +50,7 @@ function TikTokSVG() {
 function InstagramSVG() {
   return (
     <svg
-      className="platform-icon"
+      className="w-3 h-3 shrink-0 text-[#C13584]"
       viewBox="0 0 24 24"
       fill="currentColor"
       aria-hidden="true"
@@ -72,47 +72,58 @@ export function CreatorCard({ creator }: { creator: CreatorCardData }) {
     .toUpperCase();
 
   return (
-    <Link href={`/creators/${creator.username}`} className="creator-card">
-      <div className="card-inner">
+    <Link href={`/creators/${creator.username}`} className="group block">
+      <div className="h-full bg-bg-card border border-border-theme rounded-theme px-5 pt-[22px] pb-[18px] shadow-theme transition-all duration-200 ease-out group-hover:-translate-y-1 group-hover:shadow-theme-hover group-hover:border-[#D4C8BF]">
         {/* Avatar */}
-        <div className="avatar-wrap">
+        <div className="relative w-[54px] h-[54px] mb-3.5">
           {creator.avatar_url ? (
             <img
               src={creator.avatar_url}
               alt={creator.full_name}
-              className="avatar-img"
+              className="w-full h-full rounded-full object-cover border-2 border-border-theme"
             />
           ) : (
-            <div className="avatar-fallback">{initials}</div>
+            <div className="flex w-full h-full items-center justify-center rounded-full bg-gradient-to-br from-[#6B8FB5] to-accent font-head text-base font-extrabold text-white tracking-tight">
+              {initials}
+            </div>
           )}
           {isVerified && (
-            <span className="verified-dot" title="Verified Creator">
+            <span
+              className="absolute -bottom-px -right-px flex h-5 w-5 items-center justify-center rounded-full border-2 border-bg-card bg-accent text-white"
+              title="Verified Creator"
+            >
               <BadgeCheck size={14} strokeWidth={2.5} />
             </span>
           )}
         </div>
 
         {/* Name + rating */}
-        <div className="name-row">
-          <span className="creator-name">{creator.full_name}</span>
+        <div className="flex flex-wrap items-baseline gap-2 mb-0.5">
+          <span className="font-head text-[0.95rem] font-bold leading-snug text-text-main">
+            {creator.full_name}
+          </span>
           {creator.avg_rating !== null && (
-            <span className="rating">
+            <span className="flex items-center gap-1 font-body text-[0.72rem] font-semibold text-[#D97706]">
               <Star size={11} fill="currentColor" />
               {creator.avg_rating.toFixed(1)}
-              <span className="review-count">({creator.review_count})</span>
+              <span className="ml-px font-normal text-text-light">
+                ({creator.review_count})
+              </span>
             </span>
           )}
         </div>
 
-        <p className="username">@{creator.username}</p>
+        <p className="font-body text-xs text-text-light mb-3">
+          @{creator.username}
+        </p>
 
         {/* Niches */}
         {creator.niches.length > 0 && (
-          <div className="niches">
+          <div className="flex flex-wrap gap-1.5 mb-3">
             {creator.niches.slice(0, 3).map((niche) => (
               <span
                 key={niche}
-                className={`niche-badge ${NICHE_COLORS[niche] ?? 'bg-stone-100 text-stone-600'}`}
+                className={`px-2.5 py-1 rounded-full font-head text-[0.68rem] font-semibold capitalize tracking-wider ${NICHE_COLORS[niche] ?? 'bg-stone-100 text-stone-600'}`}
               >
                 {niche}
               </span>
@@ -121,15 +132,15 @@ export function CreatorCard({ creator }: { creator: CreatorCardData }) {
         )}
 
         {/* Platforms */}
-        <div className="platforms">
+        <div className="flex flex-col gap-1.5 mb-4">
           {creator.tiktok_tier && (
-            <div className="platform-pill">
+            <div className="flex items-center gap-1.5 font-body text-[0.72rem] font-medium text-text-muted">
               <TikTokSVG />
               <span>{TIER_LABELS[creator.tiktok_tier]}</span>
             </div>
           )}
           {creator.instagram_tier && (
-            <div className="platform-pill">
+            <div className="flex items-center gap-1.5 font-body text-[0.72rem] font-medium text-text-muted">
               <InstagramSVG />
               <span>{TIER_LABELS[creator.instagram_tier]}</span>
             </div>
@@ -137,12 +148,16 @@ export function CreatorCard({ creator }: { creator: CreatorCardData }) {
         </div>
 
         {/* Price CTA */}
-        <div className="card-footer">
-          <span className="price-label">starts at</span>
-          <span className="price">
+        <div className="flex items-baseline gap-1.5 border-t border-border-theme pt-3.5">
+          <span className="font-body text-[0.68rem] text-text-light">
+            starts at
+          </span>
+          <span className="flex-1 font-head text-base font-extrabold tracking-tight text-text-main">
             ₱{creator.starting_price.toLocaleString('en-PH')}
           </span>
-          <span className="book-cta">Book →</span>
+          <span className="font-head text-xs font-bold text-accent opacity-0 -translate-x-1 transition-all duration-150 ease-out group-hover:opacity-100 group-hover:translate-x-0">
+            Book →
+          </span>
         </div>
       </div>
     </Link>
