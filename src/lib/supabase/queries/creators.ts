@@ -70,11 +70,15 @@ export async function getCreators(filters: {
 
   const typedCreators = creatorsData as unknown as RawCreator[];
 
-  const filtered = filters.niche
-    ? typedCreators.filter((c) =>
-        c.creator_niches?.some((n) => n.niche === filters.niche),
-      )
-    : typedCreators;
+  const nicheParam = filters.niche;
+  const selectedNiches = nicheParam ? nicheParam.split(',') : [];
+
+  const filtered =
+    selectedNiches.length > 0
+      ? typedCreators.filter((c) =>
+          c.creator_niches?.some((n) => selectedNiches.includes(n.niche)),
+        )
+      : typedCreators;
 
   if (filtered.length === 0) return [];
 
