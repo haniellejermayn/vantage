@@ -1,20 +1,6 @@
 import Link from 'next/link';
 import { BadgeCheck, Star } from 'lucide-react';
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-export type CreatorCardData = {
-  username: string;
-  full_name: string;
-  avatar_url: string | null;
-  starting_price: number;
-  verification_status: string;
-  tiktok_tier: string | null;
-  instagram_tier: string | null;
-  niches: string[];
-  avg_rating: number | null;
-  review_count: number;
-};
+import { type CreatorCardData } from '@/lib/supabase/queries/creators'; // <-- Imported here!
 
 const TIER_LABELS: Record<string, string> = {
   nano: 'Nano · 1k–10k',
@@ -59,8 +45,6 @@ function InstagramSVG() {
     </svg>
   );
 }
-
-// ─── Component ────────────────────────────────────────────────────────────────
 
 export function CreatorCard({ creator }: { creator: CreatorCardData }) {
   const isVerified = creator.verification_status === 'verified';
@@ -148,7 +132,7 @@ export function CreatorCard({ creator }: { creator: CreatorCardData }) {
         </div>
 
         {/* Price CTA */}
-        <div className="flex items-baseline gap-1.5 border-t border-border-theme pt-3.5">
+        <div className="flex items-baseline gap-1.5 border-t border-border-theme pt-3.5 mt-auto">
           <span className="font-body text-[0.68rem] text-text-light">
             starts at
           </span>

@@ -1,5 +1,6 @@
 /* src/app/globals.css */
 @import 'tailwindcss';
+@plugin 'tailwindcss-animate';
 
 @theme {
   /* Colors - Professional Blue + Warm Paper */

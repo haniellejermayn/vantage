@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Compass, Briefcase, LayoutDashboard, Bell } from 'lucide-react';
+import { Users, Megaphone, LayoutDashboard, Bell } from 'lucide-react';
 
 const NAV_LINKS = [
-  { name: 'Discover', href: '/creators', icon: Compass },
-  { name: 'Job Board', href: '/jobs', icon: Briefcase },
+  { name: 'Creators', href: '/creators', icon: Users },
+  { name: 'Campaigns', href: '/jobs', icon: Megaphone },
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
 ];
 
