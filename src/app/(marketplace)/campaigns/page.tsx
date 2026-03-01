@@ -1,12 +1,15 @@
-import { getJobs, type BudgetRange } from '@/lib/supabase/queries/jobs';
-import { JobCard } from '@/components/shared/JobCard';
-import { JobFilters } from './JobFilters';
+import {
+  getCampaigns,
+  type BudgetRange,
+} from '@/lib/supabase/queries/campaigns';
+import { CampaignCard } from '@/components/shared/CampaignCard';
+import { CampaignFilters } from './CampaignFilters';
 import { Suspense } from 'react';
 import { Search } from 'lucide-react';
 
 type SearchParams = { budget?: string };
 
-export default async function JobsPage({
+export default async function CampaignsPage({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>;
@@ -16,7 +19,7 @@ export default async function JobsPage({
     budgetRange: params.budget as BudgetRange | undefined,
   };
 
-  const jobs = await getJobs(filters);
+  const campaigns = await getCampaigns(filters);
 
   return (
     <div className="min-h-screen bg-bg text-text-main font-body">
@@ -83,11 +86,11 @@ export default async function JobsPage({
       {/* Body: sidebar + grid */}
       <div className="mx-auto max-w-7xl px-6 lg:px-8 pt-10 pb-20 grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-10 items-start">
         <Suspense fallback={null}>
-          <JobFilters />
+          <CampaignFilters />
         </Suspense>
 
         <main className="min-w-0">
-          {jobs.length === 0 ? (
+          {campaigns.length === 0 ? (
             <div className="flex flex-col items-center justify-center gap-4 py-24 px-8 text-center">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent-light text-accent">
                 <Search size={24} strokeWidth={2} />
@@ -103,8 +106,8 @@ export default async function JobsPage({
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {jobs.map((job) => (
-                <JobCard key={job.id} job={job} />
+              {campaigns.map((campaign) => (
+                <CampaignCard key={campaign.id} campaign={campaign} />
               ))}
             </div>
           )}

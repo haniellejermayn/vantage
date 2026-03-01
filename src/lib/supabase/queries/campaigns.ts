@@ -3,7 +3,7 @@ import { Database } from '@/types/database.types';
 
 export type BudgetRange = Database['public']['Enums']['budget_range'];
 
-export interface JobCardData {
+export interface CampaignCardData {
   id: string;
   title: string;
   description: string;
@@ -15,8 +15,8 @@ export interface JobCardData {
   deliverables: string[];
 }
 
-type RawJobPost = Pick<
-  Database['public']['Tables']['job_posts']['Row'],
+type RawCampaign = Pick<
+  Database['public']['Tables']['campaigns']['Row'],
   'id' | 'title' | 'description' | 'budget_range' | 'created_at'
 > & {
   brand_profiles:
@@ -30,19 +30,19 @@ type RawJobPost = Pick<
         > | null;
       })
     | null;
-  job_post_deliverables: Pick<
-    Database['public']['Tables']['job_post_deliverables']['Row'],
+  campaign_deliverables: Pick<
+    Database['public']['Tables']['campaign_deliverables']['Row'],
     'label'
   >[];
 };
 
-export async function getJobs(filters: {
+export async function getCampaigns(filters: {
   budgetRange?: BudgetRange;
-}): Promise<JobCardData[]> {
+}): Promise<CampaignCardData[]> {
   const supabase = await createClient();
 
   let query = supabase
-    .from('job_posts')
+    .from('campaigns')
     .select(
       `
       id,
@@ -57,7 +57,7 @@ export async function getJobs(filters: {
           avatar_url
         )
       ),
-      job_post_deliverables (
+      campaign_deliverables (
         label
       )
     `,
@@ -76,17 +76,17 @@ export async function getJobs(filters: {
     return [];
   }
 
-  const typedJobs = data as unknown as RawJobPost[];
+  const typedCampaigns = data as unknown as RawCampaign[];
 
-  return typedJobs.map((job) => ({
-    id: job.id,
-    title: job.title,
-    description: job.description,
-    budget_range: job.budget_range,
-    created_at: job.created_at,
-    brand_name: job.brand_profiles?.brand_name || 'Unknown Brand',
-    industry: job.brand_profiles?.industry || null,
-    brand_avatar_url: job.brand_profiles?.profiles?.avatar_url || null,
-    deliverables: job.job_post_deliverables?.map((d) => d.label) || [],
+  return typedCampaigns.map((campaign) => ({
+    id: campaign.id,
+    title: campaign.title,
+    description: campaign.description,
+    budget_range: campaign.budget_range,
+    created_at: campaign.created_at,
+    brand_name: campaign.brand_profiles?.brand_name || 'Unknown Brand',
+    industry: campaign.brand_profiles?.industry || null,
+    brand_avatar_url: campaign.brand_profiles?.profiles?.avatar_url || null,
+    deliverables: campaign.campaign_deliverables?.map((d) => d.label) || [],
   }));
 }

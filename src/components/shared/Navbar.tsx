@@ -6,7 +6,7 @@ import { Users, Megaphone, LayoutDashboard, Bell } from 'lucide-react';
 
 const NAV_LINKS = [
   { name: 'Creators', href: '/creators', icon: Users },
-  { name: 'Campaigns', href: '/jobs', icon: Megaphone },
+  { name: 'Campaigns', href: '/campaigns', icon: Megaphone },
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
 ];
 

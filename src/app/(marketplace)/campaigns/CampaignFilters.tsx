@@ -3,7 +3,7 @@
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { SlidersHorizontal, X, Check } from 'lucide-react';
-import { type BudgetRange } from '@/lib/supabase/queries/jobs';
+import { type BudgetRange } from '@/lib/supabase/queries/campaigns';
 
 const BUDGET_TIERS: { label: string; value: BudgetRange }[] = [
   { label: 'Under ₱5,000', value: 'under_5k' },
@@ -13,7 +13,7 @@ const BUDGET_TIERS: { label: string; value: BudgetRange }[] = [
   { label: '₱50,000+', value: '50k_above' },
 ];
 
-export function JobFilters() {
+export function CampaignFilters() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
