@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans, DM_Sans } from 'next/font/google';
 import './globals.css';
+import { Navbar } from '@/components/shared/Navbar';
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -27,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${plusJakarta.variable} ${dmSans.variable}`}>
       <body className="antialiased bg-bg text-text-main font-body">
+        <Navbar />
         {children}
       </body>
     </html>

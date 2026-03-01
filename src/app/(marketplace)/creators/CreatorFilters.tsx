@@ -22,7 +22,6 @@ export function CreatorFilters() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // 1. Local State
   const [localNiches, setLocalNiches] = useState<string[]>(
     searchParams.get('niche')?.split(',').filter(Boolean) ?? [],
   );
@@ -36,7 +35,6 @@ export function CreatorFilters() {
   const [prevSearchStr, setPrevSearchStr] = useState(searchParams.toString());
   const currentSearchStr = searchParams.toString();
 
-  // 2. Optimized Render-Phase Sync
   if (currentSearchStr !== prevSearchStr) {
     setPrevSearchStr(currentSearchStr);
     setLocalNiches(searchParams.get('niche')?.split(',').filter(Boolean) ?? []);
@@ -54,33 +52,27 @@ export function CreatorFilters() {
   const toggleValue = (list: string[], val: string) =>
     list.includes(val) ? list.filter((i) => i !== val) : [...list, val];
 
-  // 3. Action: Apply Filters
   const applyFilters = () => {
     const params = new URLSearchParams(searchParams.toString());
-
     if (localNiches.length > 0) params.set('niche', localNiches.join(','));
     else params.delete('niche');
-
     if (localPlatforms.length > 0)
       params.set('platform', localPlatforms.join(','));
     else params.delete('platform');
-
     if (localMaxPrice < MAX_VAL)
       params.set('maxPrice', localMaxPrice.toString());
     else params.delete('maxPrice');
-
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   const clearAll = () => router.push(pathname, { scroll: false });
 
-  // Math to calculate the fill percentage of the slider
   const pricePercent =
     ((localMaxPrice - PRICE_STEPS[0]) / (MAX_VAL - PRICE_STEPS[0])) * 100;
 
   return (
-    <aside className="sticky top-[4vh] w-full max-h-[90vh] overflow-y-auto overscroll-contain bg-bg-card border border-border-theme rounded-theme p-6 shadow-theme [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-      <div className="flex items-center justify-between mb-6">
+    <aside className="sticky top-24 w-full h-fit bg-bg-card border border-border-theme rounded-theme p-6 shadow-theme">
+      <div className="flex items-center justify-between mb-5">
         <span className="flex items-center gap-1.5 font-head font-bold text-[0.85rem] tracking-[0.06em] uppercase text-text-main">
           <SlidersHorizontal size={14} />
           Filters
@@ -95,12 +87,12 @@ export function CreatorFilters() {
         )}
       </div>
 
-      {/* Niche Section */}
-      <div className="mb-6 pb-6 border-b border-border-theme">
-        <p className="font-head font-semibold text-[0.78rem] text-text-muted uppercase tracking-[0.07em] mb-4">
+      {/* Niche Section - Slightly tighter margins */}
+      <div className="mb-5 pb-5 border-b border-border-theme">
+        <p className="font-head font-semibold text-[0.78rem] text-text-muted uppercase tracking-[0.07em] mb-3.5">
           Niches
         </p>
-        <div className="grid grid-cols-2 gap-y-3 gap-x-4">
+        <div className="grid grid-cols-2 gap-y-2.5 gap-x-4">
           {NICHES.map((n) => {
             const isActive = localNiches.includes(n);
             return (
@@ -123,9 +115,7 @@ export function CreatorFilters() {
                   onChange={() => setLocalNiches(toggleValue(localNiches, n))}
                 />
                 <span
-                  className={`ml-2.5 text-sm font-body capitalize truncate transition-colors ${
-                    isActive ? 'text-text-main font-medium' : 'text-text-muted'
-                  }`}
+                  className={`ml-2.5 text-sm font-body capitalize truncate transition-colors ${isActive ? 'text-text-main font-medium' : 'text-text-muted'}`}
                 >
                   {n}
                 </span>
@@ -136,8 +126,8 @@ export function CreatorFilters() {
       </div>
 
       {/* Platform Section */}
-      <div className="mb-6 pb-6 border-b border-border-theme">
-        <p className="font-head font-semibold text-[0.78rem] text-text-muted uppercase tracking-[0.07em] mb-4">
+      <div className="mb-5 pb-5 border-b border-border-theme">
+        <p className="font-head font-semibold text-[0.78rem] text-text-muted uppercase tracking-[0.07em] mb-3.5">
           Platforms
         </p>
         <div className="flex gap-2">
@@ -149,7 +139,7 @@ export function CreatorFilters() {
                 onClick={() =>
                   setLocalPlatforms(toggleValue(localPlatforms, p))
                 }
-                className={`flex-1 py-2 rounded-lg font-head font-semibold text-[0.78rem] border-[1.5px] transition-all capitalize ${
+                className={`flex-1 py-1.5 rounded-lg font-head font-semibold text-[0.78rem] border-[1.5px] transition-all capitalize ${
                   isActive
                     ? 'bg-accent-light border-accent text-accent'
                     : 'bg-bg border-border-theme text-text-muted hover:border-accent'
@@ -163,8 +153,8 @@ export function CreatorFilters() {
       </div>
 
       {/* Budget Slider */}
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-4">
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-3">
           <p className="font-head font-semibold text-[0.78rem] text-text-muted uppercase tracking-[0.07em]">
             Max Budget
           </p>
@@ -174,7 +164,6 @@ export function CreatorFilters() {
           </span>
         </div>
 
-        {/* SLIDER */}
         <input
           type="range"
           min={PRICE_STEPS[0]}
@@ -196,7 +185,7 @@ export function CreatorFilters() {
 
       <button
         onClick={applyFilters}
-        className="w-full py-3 bg-accent text-white font-head font-bold text-sm rounded-lg hover:brightness-110 active:scale-[0.98] transition-all shadow-sm"
+        className="w-full py-2.5 bg-accent text-white font-head font-bold text-sm rounded-lg hover:brightness-110 active:scale-[0.98] transition-all shadow-sm"
       >
         Apply Filters
       </button>
