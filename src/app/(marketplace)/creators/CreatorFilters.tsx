@@ -22,7 +22,7 @@ export function CreatorFilters() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // 1. Local State (Arrays for multiselect)
+  // 1. Local State
   const [localNiches, setLocalNiches] = useState<string[]>(
     searchParams.get('niche')?.split(',').filter(Boolean) ?? [],
   );
@@ -51,7 +51,6 @@ export function CreatorFilters() {
     localPlatforms.length > 0 ||
     localMaxPrice < MAX_VAL;
 
-  // Helper for toggling values in arrays
   const toggleValue = (list: string[], val: string) =>
     list.includes(val) ? list.filter((i) => i !== val) : [...list, val];
 
@@ -75,6 +74,10 @@ export function CreatorFilters() {
 
   const clearAll = () => router.push(pathname, { scroll: false });
 
+  // Math to calculate the fill percentage of the slider
+  const pricePercent =
+    ((localMaxPrice - PRICE_STEPS[0]) / (MAX_VAL - PRICE_STEPS[0])) * 100;
+
   return (
     <aside className="sticky top-[4vh] w-full max-h-[90vh] overflow-y-auto overscroll-contain bg-bg-card border border-border-theme rounded-theme p-6 shadow-theme [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
       <div className="flex items-center justify-between mb-6">
@@ -92,12 +95,11 @@ export function CreatorFilters() {
         )}
       </div>
 
-      {/* Niche Section - Organized Checkbox List */}
+      {/* Niche Section */}
       <div className="mb-6 pb-6 border-b border-border-theme">
         <p className="font-head font-semibold text-[0.78rem] text-text-muted uppercase tracking-[0.07em] mb-4">
           Niches
         </p>
-        {/* Changed to a 2-column grid */}
         <div className="grid grid-cols-2 gap-y-3 gap-x-4">
           {NICHES.map((n) => {
             const isActive = localNiches.includes(n);
@@ -133,7 +135,7 @@ export function CreatorFilters() {
         </div>
       </div>
 
-      {/* Platform Section - Pill Toggle */}
+      {/* Platform Section */}
       <div className="mb-6 pb-6 border-b border-border-theme">
         <p className="font-head font-semibold text-[0.78rem] text-text-muted uppercase tracking-[0.07em] mb-4">
           Platforms
@@ -171,6 +173,8 @@ export function CreatorFilters() {
             {localMaxPrice === MAX_VAL ? '+' : ''}
           </span>
         </div>
+
+        {/* SLIDER */}
         <input
           type="range"
           min={PRICE_STEPS[0]}
@@ -178,8 +182,12 @@ export function CreatorFilters() {
           step={5000}
           value={localMaxPrice}
           onChange={(e) => setLocalMaxPrice(Number(e.target.value))}
-          className="w-full accent-accent cursor-pointer h-1.5 rounded-lg appearance-none bg-border-theme"
+          className="w-full h-1.5 appearance-none rounded-lg cursor-pointer outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-accent [&::-moz-range-thumb]:border-none"
+          style={{
+            background: `linear-gradient(to right, var(--color-accent) ${pricePercent}%, var(--color-border-theme) ${pricePercent}%)`,
+          }}
         />
+
         <div className="flex justify-between mt-2 text-[0.72rem] text-text-light font-body">
           <span>₱5k</span>
           <span>₱100k+</span>
