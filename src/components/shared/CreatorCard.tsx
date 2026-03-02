@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { BadgeCheck, Star } from 'lucide-react';
-import { type CreatorCardData } from '@/lib/supabase/queries/creators'; // <-- Imported here!
+import { type CreatorCardData } from '@/lib/supabase/api/creators'; // <-- Imported here!
 
 const TIER_LABELS: Record<string, string> = {
   nano: 'Nano · 1k–10k',

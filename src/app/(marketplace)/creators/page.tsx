@@ -1,4 +1,4 @@
-import { getCreators } from '@/lib/supabase/queries/creators';
+import { getCreators } from '@/lib/supabase/api/creators';
 import { CreatorCard } from '@/components/shared/CreatorCard';
 import { CreatorFilters } from './CreatorFilters';
 import { Suspense } from 'react';

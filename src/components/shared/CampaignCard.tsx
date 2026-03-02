@@ -1,6 +1,6 @@
 'use client';
 
-import { type CampaignCardData } from '@/lib/supabase/queries/campaigns';
+import { type CampaignCardData } from '@/lib/supabase/api/campaigns';
 import {
   Building2,
   ChevronRight,

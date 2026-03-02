@@ -3,7 +3,7 @@
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { SlidersHorizontal, X, Check } from 'lucide-react';
-import { type BudgetRange } from '@/lib/supabase/queries/campaigns';
+import { type BudgetRange } from '@/lib/supabase/api/campaigns';
 
 const BUDGET_TIERS: { label: string; value: BudgetRange }[] = [
   { label: 'Under ₱5,000', value: 'under_5k' },

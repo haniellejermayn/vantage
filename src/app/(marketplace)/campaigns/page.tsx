@@ -1,7 +1,4 @@
-import {
-  getCampaigns,
-  type BudgetRange,
-} from '@/lib/supabase/queries/campaigns';
+import { getCampaigns, type BudgetRange } from '@/lib/supabase/api/campaigns';
 import { CampaignCard } from '@/components/shared/CampaignCard';
 import { CampaignFilters } from './CampaignFilters';
 import { Suspense } from 'react';
